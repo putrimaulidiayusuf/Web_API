@@ -7,12 +7,12 @@ const PORT = 3000;
 
 // Middleware
 app.use(express.json());
-app.use(express.static('public')); // Untuk serve index.html, style.css, script.js
+app.use(express.static(__dirname)); // serve index.html, style.css, script.js dari root folder
 
 // Endpoint API produk
 app.get('/api/produk', (req, res) => {
   try {
-    const rawData = fs.readFileSync('./data/products.json', 'utf-8');
+    const rawData = fs.readFileSync('./products.json', 'utf-8');
     const products = JSON.parse(rawData);
 
     // Group data berdasarkan kategori
