@@ -1,0 +1,280 @@
+/* Reset dan dasar */
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  margin: 0;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  background: #222;
+  color: white;
+  padding: 10px;
+  margin: 0;
+}
+nav li {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+/* Container utama */
+.container {
+  display: flex;
+  height: calc(100vh - 40px);
+}
+
+/* Sidebar kiri dan kanan */
+.sidebar-kiri, .sidebar-kanan {
+  width: 220px;
+  background: #eee;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+/* Tombol sidebar kiri */
+.sidebar-kiri button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: #3498db;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  user-select: none;
+  transition: background-color 0.3s;
+}
+.sidebar-kiri button:hover {
+  background-color: #2980b9;
+}
+
+/* Main content */
+main {
+  flex: 1;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  overflow-y: auto;
+}
+
+/* Produk item */
+.produk {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  border-radius: 6px;
+  user-select: none;
+}
+.produk:hover {
+  box-shadow: 0 0 8px #3498db;
+}
+.produk img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Daftar pesanan (keranjang) */
+#daftar-pesanan {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* Item di keranjang */
+.item-keranjang {
+  display: grid;
+  grid-template-columns: 30px 1fr 80px 80px;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0;
+  cursor: default;
+}
+
+.item-keranjang .jumlah {
+  font-weight: bold;
+  text-align: center;
+  user-select: none;
+}
+
+.item-keranjang .nama-produk {
+  cursor: pointer;
+  color: #2c3e50;
+  user-select: none;
+  text-decoration: underline;
+}
+
+.item-keranjang .harga-per-porsi,
+.item-keranjang .harga-total {
+  font-weight: bold;
+  text-align: right;
+  user-select: none;
+}
+
+/* Total harga di sidebar kanan */
+#total-harga {
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 10px;
+  text-align: right;
+}
+
+/* Tombol bayar */
+.sidebar-kanan button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px 0;
+  background: #27ae60;
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s;
+}
+.sidebar-kanan button:hover {
+  background-color: #219150;
+}
+
+/* POP UP STYLE */
+
+/* Overlay popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 2px solid #333;
+  padding: 20px;
+  width: 320px;
+  max-width: 90%;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  z-index: 1000;
+  border-radius: 8px;
+}
+
+/* Sembunyikan popup */
+.hidden {
+  display: none;
+}
+
+/* Header popup */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.popup-header button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Kontrol jumlah */
+.quantity-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.quantity-control button {
+  width: 35px;
+  height: 35px;
+  font-size: 22px;
+  cursor: pointer;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  user-select: none;
+  transition: background-color 0.3s;
+}
+.quantity-control button:hover {
+  background-color: #2980b9;
+}
+
+.quantity-control span {
+  font-size: 20px;
+  min-width: 40px;
+  text-align: center;
+  user-select: none;
+}
+
+/* Total harga di popup */
+.total-price {
+  font-weight: 700;
+  margin: 12px 0;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* Textarea catatan */
+#catatan {
+  resize: vertical;
+  font-size: 14px;
+  padding: 8px;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Tombol simpan */
+#saveQtyBtn {
+  padding: 10px 15px;
+  cursor: pointer;
+  background: #27ae60;
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  flex: 1;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+  user-select: none;
+}
+#saveQtyBtn:hover {
+  background-color: #1e8449;
+}
+
+/* Tombol hapus */
+#hapusPesananBtn {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  flex: 1;
+  transition: background-color 0.3s;
+  user-select: none;
+}
+#hapusPesananBtn:hover {
+  background-color: #c0392b;
+}
+
+/* Container tombol simpan & hapus di popup */
+.popup-body > div:last-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}

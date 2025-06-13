@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kasir App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <ul>
+      <li>Kasir</li>
+      <li>Home</li>
+      <li>Link</li>
+      <li>
+        <select>
+          <option>Dropdown</option>
+          <option>Option A</option>
+        </select>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <aside class="sidebar-kiri">
+      <button onclick="loadKategori('makanan')">Makanan</button>
+      <button onclick="loadKategori('minuman')">Minuman</button>
+      <button onclick="loadKategori('cemilan')">Cemilan</button>
+    </aside>
+
+    <main id="produk-container"></main>
+
+    <aside class="sidebar-kanan" id="keranjang">
+      <h3>Pesanan</h3>
+      <div id="daftar-pesanan"></div>
+      <div id="total-harga">Total: Rp 0</div>
+      <button onclick="selesaiPesan()">Bayar</button>
+    </aside>
+  </div>
+
+  <!-- POP UP -->
+  <div id="editPopup" class="popup hidden">
+    <div class="popup-header">
+      <span id="popupTitle"></span>
+      <button id="closePopupBtn">&times;</button>
+    </div>
+    <div class="popup-body">
+      <div class="quantity-control">
+        <button id="decQtyBtn">-</button>
+        <span id="qtyValue">1</span>
+        <button id="incQtyBtn">+</button>
+      </div>
+      <hr>
+      <label for="catatan">Keterangan:</label><br />
+      <textarea id="catatan" rows="3" style="width: 100%;"></textarea>
+      <hr>
+      <div class="total-popup-harga" style="font-weight:bold; margin-bottom: 15px;">
+        Total Harga: Rp <span id="popupTotalPrice">0</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <button id="saveQtyBtn">Simpan Pesanan</button>
+        <button id="hapusPesananBtn" style="background: #e74c3c; color: white;">Hapus Pesanan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
