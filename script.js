@@ -1,4 +1,4 @@
-let dataProduk = {};
+let dataProduk = [];
 let keranjang = [];
 
 const editPopup = document.getElementById('editPopup');
@@ -15,12 +15,18 @@ let currentEditItem = null;
 let currentQty = 1;
 
 async function loadKategori(kategori) {
-  const res = await fetch('/api/produk');
+  const res = await fetch('products.json');
   const data = await res.json();
-  dataProduk = data;
+  dataProduk = data; // Simpan semua data original
   const container = document.getElementById('produk-container');
   container.innerHTML = '';
-  data[kategori].forEach(p => {
+
+  // Filter berdasarkan kategori (pastikan lowercase)
+  const kategoriFilter = kategori.toLowerCase();
+  const filtered = data.filter(p => p.kategori.toLowerCase() === kategoriFilter);
+
+  // Tampilkan
+  filtered.forEach(p => {
     const div = document.createElement('div');
     div.className = 'produk';
     div.innerHTML = `
