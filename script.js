@@ -1,64 +1,80 @@
 let dataProduk = [];
 let keranjang = [];
 
-const editPopup = document.getElementById('editPopup');
-const popupTitle = document.getElementById('popupTitle');
-const closePopupBtn = document.getElementById('closePopupBtn');
-const decQtyBtn = document.getElementById('decQtyBtn');
-const incQtyBtn = document.getElementById('incQtyBtn');
-const qtyValue = document.getElementById('qtyValue');
-const saveQtyBtn = document.getElementById('saveQtyBtn');
-const hapusPesananBtn = document.getElementById('hapusPesananBtn');
-const catatanEl = document.getElementById('catatan');
+const editPopup = document.getElementById("editPopup");
+const popupTitle = document.getElementById("popupTitle");
+const closePopupBtn = document.getElementById("closePopupBtn");
+const decQtyBtn = document.getElementById("decQtyBtn");
+const incQtyBtn = document.getElementById("incQtyBtn");
+const qtyValue = document.getElementById("qtyValue");
+const saveQtyBtn = document.getElementById("saveQtyBtn");
+const hapusPesananBtn = document.getElementById("hapusPesananBtn");
+const catatanEl = document.getElementById("catatan");
 
 let currentEditItem = null;
 let currentQty = 1;
 
 async function loadKategori(kategori) {
-  const res = await fetch('products.json');
-  const data = await res.json();
-  dataProduk = data; // Simpan semua data original
-  const container = document.getElementById('produk-container');
-  container.innerHTML = '';
+  const container = document.getElementById("produk-container");
+  container.innerHTML = "";
+  const apiKeyNya = 'xzDO5vU94FruCbcQqH3SlNIGCPD2xDZ-0it2ivOgKqw'
+  try {
+    const res = await fetch(
+      `https://api.unsplash.com/search/photos?query=${kategori}&per_page=30&client_id=${apiKeyNya}`
+    );
 
-  // Filter berdasarkan kategori (pastikan lowercase)
-  const kategoriFilter = kategori.toLowerCase();
-  const filtered = data.filter(p => p.kategori.toLowerCase() === kategoriFilter);
+    const result = await res.json();
 
-  // Tampilkan
-  filtered.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'produk';
-    div.innerHTML = `
-      <img src="${p.gambar}" alt="${p.nama}" />
-      <h4>${p.nama}</h4>
-      <p>Rp ${p.harga}</p>
-    `;
-    div.onclick = () => tambahKeKeranjang(p);
-    container.appendChild(div);
-  });
+    dataProduk = result.results.map((item, index) => ({
+      id: index + 1,
+      nama: item.alt_description || `Gambar ${index + 1}`,
+      harga: Math.floor(Math.random() * 10000) + 10000,
+      kategori: kategori,
+      gambar: item.urls.small,
+    }));
+
+    dataProduk.forEach((p) => {
+      const untukFormatUang = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+
+      const div = document.createElement("div");
+      div.className = "produk";
+      div.innerHTML = `
+        <img src="${p.gambar}" alt="${p.nama}" referrerpolicy="no-referrer" style="width:200px;height:150px;object-fit:cover;"  />
+        <h4>${p.nama}</h4>
+        <p>${untukFormatUang.format(p.harga)}</p> 
+      `;
+      div.onclick = () => tambahKeKeranjang(p);
+      container.appendChild(div);
+    });
+  } catch (error) {
+    container.innerHTML = `<p>Gagal memuat produk. Coba lagi nanti.</p>`;
+    console.error("Gagal mengambil data dari Unsplash:", error);
+  }
 }
 
 function tambahKeKeranjang(produk) {
-  const index = keranjang.findIndex(p => p.id === produk.id);
+  const index = keranjang.findIndex((p) => p.id === produk.id);
   if (index >= 0) {
     keranjang[index].jumlah += 1;
   } else {
-    keranjang.push({ ...produk, jumlah: 1, catatan: '' });
+    keranjang.push({ ...produk, jumlah: 1, catatan: "" });
   }
   renderKeranjang();
 }
 
 function renderKeranjang() {
-  const daftar = document.getElementById('daftar-pesanan');
-  daftar.innerHTML = '';
+  const daftar = document.getElementById("daftar-pesanan");
+  daftar.innerHTML = "";
   let total = 0;
-  keranjang.forEach(p => {
+  keranjang.forEach((p) => {
     const subtotal = p.harga * p.jumlah;
     total += subtotal;
 
-    const item = document.createElement('div');
-    item.className = 'item-keranjang';
+    const item = document.createElement("div");
+    item.className = "item-keranjang";
     item.innerHTML = `
       <div class="jumlah">${p.jumlah}</div>
       <div class="nama-produk" onclick="openEditPopup(${p.id})" style="cursor:pointer;color:blue;">${p.nama}</div>
@@ -67,22 +83,22 @@ function renderKeranjang() {
     `;
     daftar.appendChild(item);
   });
-  document.getElementById('total-harga').innerText = 'Total: Rp ' + total;
+  document.getElementById("total-harga").innerText = "Total: Rp " + total;
 }
 
 function openEditPopup(id) {
-  const item = keranjang.find(p => p.id === id);
+  const item = keranjang.find((p) => p.id === id);
   if (!item) return;
   currentEditItem = item;
   currentQty = item.jumlah;
   popupTitle.textContent = `${item.nama} (Rp ${item.harga})`;
   qtyValue.textContent = currentQty;
-  catatanEl.value = item.catatan || '';
-  editPopup.classList.remove('hidden');
+  catatanEl.value = item.catatan || "";
+  editPopup.classList.remove("hidden");
 }
 
 function closeEditPopup() {
-  editPopup.classList.add('hidden');
+  editPopup.classList.add("hidden");
   currentEditItem = null;
 }
 
@@ -110,7 +126,7 @@ saveQtyBtn.onclick = () => {
 
 hapusPesananBtn.onclick = () => {
   if (!currentEditItem) return;
-  keranjang = keranjang.filter(p => p.id !== currentEditItem.id);
+  keranjang = keranjang.filter((p) => p.id !== currentEditItem.id);
   renderKeranjang();
   closeEditPopup();
 };
@@ -122,4 +138,4 @@ function selesaiPesan() {
 }
 
 // Muat kategori awal supaya halaman ada isi
-loadKategori('makanan');
+loadKategori("makanan");
