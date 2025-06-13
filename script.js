@@ -44,7 +44,7 @@ async function loadKategori(kategori) {
       div.innerHTML = `
         <img src="${p.gambar}" alt="${p.nama}" referrerpolicy="no-referrer" style="width:200px;height:150px;object-fit:cover;"  />
         <h4>${p.nama}</h4>
-        <p>${untukFormatUang.format(p.harga)}</p> // 
+        <p>${untukFormatUang.format(p.harga)}</p>
       `;
       div.onclick = () => tambahKeKeranjang(p);
       container.appendChild(div);
